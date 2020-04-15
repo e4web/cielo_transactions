@@ -1,0 +1,17 @@
+{
+    "name": "leandrodsn/cielo_transactions",
+    "description": "Integrate with Cielo eCommerce API using Cielo API 3.0 PHP SDK",
+    "type": "project",
+    "keywords": ["yii2","developercielo"],
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Leandro Nascimento",
+            "email": "leandro@virtualizesolucoes.com.br"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "developercielo/api-3.0-php": "^1.0"
+    }
+}
