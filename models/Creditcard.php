@@ -5,7 +5,7 @@ namespace leandrodsn\cielo_transactions\models;
 use yii\base\Model;
 
 /**
- * Description of Billing
+ * This class implements all the validation rules necessary to register a credit card with Cielo
  *
  * @author leandro
  */

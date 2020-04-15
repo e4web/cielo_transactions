@@ -12,7 +12,7 @@ use app\models\UserCreditcard;
 use Cielo\API30\Ecommerce\Request\CieloRequestException;
 
 /**
- * Description of Billing
+ * This class is responsible for all communication with Cielo API 3.0 PHP SDK
  *
  * @author leandro
  */
@@ -54,17 +54,16 @@ class Cielocomponent extends \yii\base\Component {
 	 */
 	public function createCard($card)
 	{
-		try {
-			$creditcard = new CreditCard();
-			$creditcard->setCustomerName($card->card_name);
-			$creditcard->setCardNumber(str_replace('.', '', $card->card_number));
-			$creditcard->setHolder($card->card_name);
-			$creditcard->setExpirationDate($card->expiration_date);
-			$creditcard->setSecurityCode($card->cvv);
-			$creditcard->setBrand($this->setCardBrand($card->card_brand));
-			
-			$card = (new CieloEcommerce($this->merchant, $this->enviroment))->tokenizeCard($creditcard);
+		$creditcard = new CreditCard();
+		$creditcard->setCustomerName($card->card_name);
+		$creditcard->setCardNumber(str_replace('.', '', $card->card_number));
+		$creditcard->setHolder($card->card_name);
+		$creditcard->setExpirationDate($card->expiration_date);
+		$creditcard->setSecurityCode($card->cvv);
+		$creditcard->setBrand($this->setCardBrand($card->card_brand));
 
+		try {
+			$cielo_ecommerce = (new CieloEcommerce($this->merchant, $this->enviroment))->tokenizeCard($creditcard);
 		} catch (CieloRequestException $e) {
 			$this->response['error'] = 1;
 			$this->response['message'] = $e->getCieloError();
@@ -72,7 +71,7 @@ class Cielocomponent extends \yii\base\Component {
 		}
 
 		$this->response['message'] = "Cartão validado com sucesso!";
-		$this->response['token'] = $card->getCardToken();
+		$this->response['token'] = $cielo_ecommerce->getCardToken();
 		return $this->response;
 	}
 
